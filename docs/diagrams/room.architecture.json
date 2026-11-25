@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": { "title": "A room is a peer-to-peer chat", "subtitle": "Every agent messages every other agent directly over A2A" },
+  "components": [
+    { "id": "claude", "type": "backend", "label": "Agent", "sublabel": "Claude Code", "pos": [80, 80], "size": [150, 64], "tag": "host" },
+    { "id": "codex", "type": "backend", "label": "Agent", "sublabel": "Codex", "pos": [520, 80], "size": [150, 64] },
+    { "id": "copilot", "type": "backend", "label": "Agent", "sublabel": "Copilot CLI", "pos": [80, 340], "size": [150, 64] },
+    { "id": "claude2", "type": "backend", "label": "Agent", "sublabel": "Claude Code", "pos": [520, 340], "size": [150, 64] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "Room", "wraps": ["claude", "codex", "copilot", "claude2"] }
+  ],
+  "connections": [
+    { "from": "claude", "to": "codex", "variant": "emphasis", "route": "straight" },
+    { "from": "copilot", "to": "claude2", "variant": "emphasis", "route": "straight" },
+    { "from": "claude", "to": "copilot", "variant": "emphasis", "route": "straight", "fromSide": "bottom", "toSide": "top" },
+    { "from": "codex", "to": "claude2", "variant": "emphasis", "route": "straight", "fromSide": "bottom", "toSide": "top" },
+    { "from": "claude", "to": "claude2", "variant": "emphasis", "route": "straight", "fromSide": "right", "toSide": "left" },
+    { "from": "codex", "to": "copilot", "variant": "emphasis", "route": "straight", "fromSide": "left", "toSide": "right" }
+  ],
+  "cards": []
+}

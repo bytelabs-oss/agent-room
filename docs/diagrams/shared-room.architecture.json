@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "A room across machines",
+    "subtitle": "Agents reach each other over your private Tailscale network"
+  },
+  "components": [
+    {
+      "id": "web",
+      "type": "frontend",
+      "label": "Web app",
+      "sublabel": "127.0.0.1 only",
+      "pos": [
+        60,
+        110
+      ],
+      "size": [
+        140,
+        60
+      ]
+    },
+    {
+      "id": "host",
+      "type": "backend",
+      "label": "Agent",
+      "sublabel": "your session",
+      "pos": [
+        60,
+        260
+      ],
+      "size": [
+        140,
+        64
+      ]
+    },
+    {
+      "id": "ts",
+      "type": "security",
+      "label": "Tailscale",
+      "sublabel": "encrypted, private",
+      "pos": [
+        360,
+        260
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "tag": "invited people only"
+    },
+    {
+      "id": "guest",
+      "type": "backend",
+      "label": "Agent",
+      "sublabel": "teammate's session",
+      "pos": [
+        680,
+        260
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "gweb",
+      "type": "frontend",
+      "label": "Web app",
+      "sublabel": "127.0.0.1 only",
+      "pos": [
+        680,
+        110
+      ],
+      "size": [
+        150,
+        60
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Your machine",
+      "wraps": [
+        "web",
+        "host"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Teammate's machine",
+      "wraps": [
+        "gweb",
+        "guest"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "web",
+      "to": "host",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "gweb",
+      "to": "guest",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "from": "host",
+      "to": "ts",
+      "label": "A2A",
+      "variant": "emphasis"
+    },
+    {
+      "from": "ts",
+      "to": "guest",
+      "label": "A2A",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Private",
+      "items": [
+        "Only your Tailscale network can reach the agents",
+        "Nothing is open to the internet"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Local web app",
+      "items": [
+        "Each web app answers only its own machine"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --ease-snappy: cubic-bezier(0.23, 1, 0.32, 1);
+    --color-chat: var(--chat);
+    --color-attention: var(--attention);
+    --color-attention-foreground: var(--attention-foreground);
+    --color-attention-soft: var(--attention-soft);
+    --color-success: var(--success);
+    --font-heading: var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    --chat: oklch(0.955 0.005 260);
+    --attention: oklch(0.52 0.17 42);
+    --attention-foreground: oklch(0.99 0 0);
+    --attention-soft: oklch(0.965 0.03 65);
+    --success: oklch(0.5 0.11 155);
+    --background: oklch(1 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.53 0.17 258);
+    --primary-foreground: oklch(0.99 0 0);
+    --secondary: oklch(0.97 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.97 0 0);
+    --muted-foreground: oklch(0.556 0 0);
+    --accent: oklch(0.97 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.922 0 0);
+    --input: oklch(0.922 0 0);
+    --ring: oklch(0.62 0.14 258);
+    --radius: 0.625rem;
+}
+
+.dark {
+    --chat: oklch(0.2 0.01 260);
+    --attention: oklch(0.75 0.14 55);
+    --attention-foreground: oklch(0.2 0.04 55);
+    --attention-soft: oklch(0.3 0.06 55);
+    --success: oklch(0.72 0.12 155);
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.68 0.15 258);
+    --primary-foreground: oklch(0.16 0.02 258);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.68 0.15 258);
+}
+
+/* Top and Latest rise in from just below when they appear. */
+.jump-in {
+  transition: opacity 180ms var(--ease-snappy), translate 180ms var(--ease-snappy), scale 150ms var(--ease-snappy), background-color 150ms ease;
+  @starting-style { opacity: 0; translate: 0 6px; }
+}
+
+/* Ring drawn around a message after a jump. Hidden until page.tsx animates it. */
+.jump-ring::after {
+  content: "";
+  position: absolute;
+  inset: -3.5px;
+  border: 1.5px solid var(--attention);
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Sun and moon swap with a short blurred crossfade. */
+.theme-icon { transition: opacity 200ms var(--ease-snappy), scale 200ms var(--ease-snappy), filter 200ms var(--ease-snappy); }
+.theme-icon[data-hidden] { opacity: 0; scale: 0.6; filter: blur(2px); }
+
+/* Agent colours come from each agent's hue (--h), with lighter or darker shades per theme. */
+.agent-avatar { background: oklch(0.93 0.045 var(--h)); color: oklch(0.4 0.11 var(--h)); }
+.dark .agent-avatar { background: oklch(0.33 0.06 var(--h)); color: oklch(0.88 0.08 var(--h)); }
+.agent-bubble { background: oklch(0.55 0.16 var(--h)); }
+.dark .agent-bubble { background: oklch(0.5 0.14 var(--h)); }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    --tw-enter-scale: 1 !important;
+    --tw-exit-scale: 1 !important;
+    --tw-enter-translate-x: 0 !important;
+    --tw-enter-translate-y: 0 !important;
+    --tw-exit-translate-x: 0 !important;
+    --tw-exit-translate-y: 0 !important;
+    scroll-behavior: auto !important;
+  }
+  .jump-in { transition: opacity 180ms ease; @starting-style { translate: none; } }
+  .theme-icon { scale: 1 !important; filter: none !important; }
+  button:active { scale: 1 !important; }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    font-variant-numeric: tabular-nums;
+    }
+  ::selection {
+    background: var(--attention-soft);
+    color: var(--foreground);
+    }
+  html {
+    @apply font-sans;
+    }
+}
