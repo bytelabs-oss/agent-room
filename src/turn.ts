@@ -14,7 +14,7 @@ export function createTurn(agent: Agent, deliver: (prompt: string, sender: strin
 
   agent.onMessage = (message: Message) => {
     const { from } = metaOf(message);
-    const prompt = `agent-room: a message for you as "${agent.me.name}" in room "${room(agent).name}". Reply to it or ack it: ${JSON.stringify(formatMessage(agent, message))}`;
+    const prompt = `agent-room: a message for you as "${agent.me.name}" in room "${room(agent).name}". Answer it with the room's reply tool, or close it with the room's ack tool: ${JSON.stringify(formatMessage(agent, message))}`;
     deliver(prompt, typeof from === 'string' ? from : `channel-${channelOf(message)}`);
   };
 
@@ -27,7 +27,7 @@ export function createTurn(agent: Agent, deliver: (prompt: string, sender: strin
       const senders = new Set(waitingMessages(held(agent)).map((message) => metaOf(message).from).filter((from) => typeof from === 'string'));
       await Promise.all([...senders].filter((id) => room(agent).agents[id]).map((id) => checkPresence(agent, id)));
       if (!turnHoldingMessages().length) return {};
-      return { block: `agent-room: reply to or ack each of these before ending your turn: ${JSON.stringify(turnHoldingMessages().map((message) => formatMessage(agent, message)))}` };
+      return { block: `agent-room: answer each of these with the room's reply tool, or close it with the room's ack tool, before ending your turn: ${JSON.stringify(turnHoldingMessages().map((message) => formatMessage(agent, message)))}` };
     },
   };
 }
